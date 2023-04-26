@@ -1,31 +1,21 @@
 import styled from '@emotion/styled';
 import searchIcon from './search.svg';
-import { NavLink } from 'react-router-dom';
 
-export const Header = styled.header`
-  top: 0;
-  left: 0;
-  position: sticky;
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 64px;
-  padding: 10px 24px;
-  color: #fff;
-  background-color: #3f51b5;
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+export const SearchBox = styled.div`
+  width: 400px;
+  margin: auto;
 `;
 
 export const Form = styled.form`
   display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  background-color: #fff;
-  border-radius: 3px;
+  border-radius: 5px;
   overflow: hidden;
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  :focus-within {
+    box-shadow: 0px 0px 0px 0px #ffa500, 3px 3px 10px 0px #ffa500,
+      3px 3px 5px -5px #ffa500;
+  }
 `;
 
 export const SearchButton = styled.button`
@@ -69,13 +59,5 @@ export const FormInput = styled.input`
   ::placeholder {
     font: inherit;
     font-size: 16px;
-  }
-`;
-
-export const StyledLink = styled(NavLink)`
-  color: black;
-
-  &.active {
-    color: orange;
   }
 `;

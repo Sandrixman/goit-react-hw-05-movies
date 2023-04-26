@@ -1,60 +1,77 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import MovieApiService from 'services/MovieApiService';
+import MoviesList from 'components/MoviesList/MoviesList';
 
 import {
-  Header,
+  SearchBox,
   Form,
   SearchButton,
   ButtonSpan,
   FormInput,
-  StyledLink,
 } from './Seachbar.styled';
 
-const Searchbar = ({ onSubmit, resetPage }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+const { querySearch } = MovieApiService();
+
+const Searchbar = () => {
+  const [movieArray, setMovieArray] = useState([]);
+  const [query, setQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (!searchParams.get('query')) {
+      return;
+    }
+
+    querySearch(searchParams.get('query'))
+      .then(response => {
+        if (response.total_results === 0) {
+          toast.error('incorrect query', {
+            position: 'top-center',
+          });
+        }
+        setMovieArray([...response.results]);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [searchParams]);
 
   const handleQueryChange = e => {
-    setSearchQuery(e.currentTarget.value.toLowerCase());
+    setQuery(e.target.value);
   };
 
-  const handleSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-
-    onSubmit(searchQuery);
-    resetPage(1);
-    setSearchQuery('');
+    query !== '' && setSearchParams({ query });
+    setQuery('');
   };
 
   return (
-    <Header>
-      <nav>
-        <StyledLink to="/" end>
-          Home
-        </StyledLink>
-        <StyledLink to="/about">About</StyledLink>
-        <StyledLink to="/products">Products</StyledLink>
-      </nav>
-      <Form onSubmit={handleSubmit}>
-        <SearchButton type="submit">
-          <ButtonSpan>Search</ButtonSpan>
-        </SearchButton>
+    <>
+      <SearchBox>
+        <Form onSubmit={onSubmit}>
+          <SearchButton type="submit">
+            <ButtonSpan>Search</ButtonSpan>
+          </SearchButton>
 
-        <FormInput
-          type="text"
-          name="searchQuery"
-          value={searchQuery}
-          onChange={handleQueryChange}
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-        />
-      </Form>
-    </Header>
+          <FormInput
+            type="text"
+            name="searchQuery"
+            value={query}
+            onChange={handleQueryChange}
+            autoComplete="off"
+            autoFocus
+            placeholder="Search movie"
+          />
+        </Form>
+      </SearchBox>
+      <MoviesList movieArray={movieArray} />
+    </>
   );
-};
-
-Searchbar.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Searchbar;

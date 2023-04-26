@@ -40,13 +40,22 @@ ol {
   padding: 0;
 }
 
+header {
+  box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+main {
+  padding: 20px;
+}
+
 img {
   display: block;
   max-width: 100%;
   height: auto;
 }
 
-.hidden{
+.overflow{
   overflow: hidden;
 }
 `;
