@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ActorsList, Actor } from './Cast.styled';
 import dummy from '../../images/dummy-poster.jpg';
 
 import MovieApiService from 'services/MovieApiService';
@@ -17,20 +18,20 @@ const Cast = () => {
   }, [movieId]);
 
   return (
-    <ul>
+    <ActorsList>
       {movieArray.map(({ id, character, profile_path, name }) => {
         const actorImage = profile_path
           ? `https://image.tmdb.org/t/p/w92${profile_path}`
           : dummy;
         return (
-          <div key={id}>
+          <Actor key={id}>
             <img src={actorImage} alt=""></img>
-            <li>{name}</li>
+            <p>{name}</p>
             <p>{character}</p>
-          </div>
+          </Actor>
         );
       })}
-    </ul>
+    </ActorsList>
   );
 };
 

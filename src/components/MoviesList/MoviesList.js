@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Movies, MoviesListItem } from './MoviesList.styled';
 
 const MoviesList = ({ movieArray }) => {
@@ -17,6 +18,10 @@ const MoviesList = ({ movieArray }) => {
       })}
     </Movies>
   );
+};
+
+MoviesList.propTypes = {
+  movieArray: PropTypes.array.isRequired,
 };
 
 export default MoviesList;

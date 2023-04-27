@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ReviewsList, Review, Author } from './Reviews.styled';
 
 import MovieApiService from 'services/MovieApiService';
 
@@ -16,16 +17,21 @@ const Reviews = () => {
   }, [movieId]);
 
   return (
-    <ul>
+    <ReviewsList>
       {movieArray.map(({ id, author, content }) => {
+        const textWithoutParagraph = content;
+        const textArray = textWithoutParagraph.split('\n');
+
         return (
-          <div key={id}>
-            <li>Author: {author}</li>
-            <p>{content}</p>
-          </div>
+          <Review key={id}>
+            <Author>Author: {author}</Author>
+            {textArray.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </Review>
         );
       })}
-    </ul>
+    </ReviewsList>
   );
 };
 

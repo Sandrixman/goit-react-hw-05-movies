@@ -4,7 +4,7 @@ import { Pending } from './Loader.styled';
 export default function Loader() {
   return (
     <Pending>
-      <h1>Searching</h1>
+      <h1>Loading</h1>
       <MagnifyingGlass
         visible={true}
         height="80"
