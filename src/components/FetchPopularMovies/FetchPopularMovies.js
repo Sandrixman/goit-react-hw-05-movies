@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react';
-import MovieApiService from 'services/MovieApiService';
+import { fetchPopularMovies } from 'services/MovieApiService';
 import MoviesList from 'components/MoviesList/MoviesList';
-
-const { fetchPopularMovie } = MovieApiService();
 
 const FetchPopularMovies = () => {
   const [movieArray, setMovieArray] = useState([]);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
-    fetchPopularMovie()
+    fetchPopularMovies()
       .then(response => setMovieArray([...response.results]))
-      .catch(error => console.error(error));
+      .catch(() => setErrorMsg('Request error'));
   }, []);
 
   return (
     <>
-      <h1>Trending today</h1>
-      <MoviesList movieArray={movieArray} />
+      {movieArray.length > 0 && (
+        <>
+          <h1>Trending today</h1>
+          <MoviesList movieArray={movieArray} />
+        </>
+      )}
+      {errorMsg && <h2>{errorMsg}</h2>}
     </>
   );
 };

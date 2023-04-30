@@ -1,9 +1,8 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import MovieApiService from 'services/MovieApiService';
-import MovieCard from 'components/MovieCard/MovieCard';
-
-const { fetchMovie } = MovieApiService();
+import { useEffect, useState, lazy, Suspense } from 'react';
+import { fetchMovie } from 'services/MovieApiService';
+import MovieCardSleketon from 'components/MovieCard/MovieCardSleketon';
+const MovieCard = lazy(() => import('components/MovieCard/MovieCard'));
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -11,21 +10,21 @@ const MovieDetails = () => {
 
   useEffect(() => {
     fetchMovie(movieId)
-      .then(({ poster_path, genres, title, overview, vote_average }) => {
-        setMovie({
-          poster_path,
-          genres,
-          title,
-          overview,
-          vote_average,
-        });
-      })
+      .then(setMovie)
       .catch(error => {
         console.error(error);
       });
   }, [movieId]);
 
-  return <>{movie.title && <MovieCard movie={movie} />}</>;
+  return (
+    <>
+      {movie.title && (
+        <Suspense fallback={<MovieCardSleketon />}>
+          <MovieCard movie={movie} />
+        </Suspense>
+      )}
+    </>
+  );
 };
 
 export default MovieDetails;

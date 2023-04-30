@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import MovieApiService from 'services/MovieApiService';
+import { querySearch } from 'services/MovieApiService';
 import MoviesList from 'components/MoviesList/MoviesList';
 
 import {
@@ -13,8 +13,6 @@ import {
   ButtonSpan,
   FormInput,
 } from './Seachbar.styled';
-
-const { querySearch } = MovieApiService();
 
 const Searchbar = () => {
   const [movieArray, setMovieArray] = useState([]);

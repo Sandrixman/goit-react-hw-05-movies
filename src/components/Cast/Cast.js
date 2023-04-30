@@ -3,9 +3,7 @@ import { useParams } from 'react-router-dom';
 import { ActorsList, Actor } from './Cast.styled';
 import dummy from '../../images/dummy-poster.jpg';
 
-import MovieApiService from 'services/MovieApiService';
-
-const { fetchCast } = MovieApiService();
+import { fetchCast } from 'services/MovieApiService';
 
 const Cast = () => {
   const { movieId } = useParams();

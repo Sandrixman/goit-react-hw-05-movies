@@ -19,6 +19,9 @@ export const StyledLink = styled(Link)`
 export const MovieInfo = styled.div`
   display: flex;
   gap: 25px;
+  img {
+    width: 200px;
+  }
 `;
 
 export const MovieDescr = styled.div`
